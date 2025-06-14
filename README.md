@@ -30,19 +30,22 @@ Projeyi çalıştırmak için Docker ve Docker Compose kurulu olmalıdır.
 4. Projeye event göndermek için send.go dosyası kullanılabilir:
 - go run send.go
 5. Manuel olarak API'a event gönderilebilir:
-- curl -X POST http://localhost:8080/events \
-- -H "Content-Type: application/json" \
-- -d '{
--   "eventId": "12345",
--   "source": "test-service",
--   "type": "user.signup",
--   "payload": {
--     "username": "elif",
--     "email": "elif@example.com"
--   },
--   "timestamp": "2025-06-14T10:00:00Z"
-- }'
+Manuel olarak API'a event gönderilebilir:
 
+```bash
+curl -X POST http://localhost:8080/events \
+-H "Content-Type: application/json" \
+-d '{
+  "eventId": "12345",
+  "source": "test-service",
+  "type": "user.signup",
+  "payload": {
+    "username": "elif",
+    "email": "elif@example.com"
+  },
+  "timestamp": "2025-06-14T10:00:00Z"
+}'
+````
 ### İzleme ve Dashboard:
 
 - Prometheus http://localhost:9090
