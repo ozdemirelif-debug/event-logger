@@ -47,11 +47,11 @@ Projeyi çalıştırmak için Docker ve Docker Compose kurulu olmalıdır.
 
   ### Proje Yapısı
 
-event-logger/
-|----api/
-|----consumer/
-|----send.go
-|----docker-compose.yml
-|----Dockerfile.api
-|----Dockerfile.consumer
-|----prometheus.yml
+- event-logger/
+- |----api/
+- |----consumer/
+- |----send.go
+- |----docker-compose.yml
+- |----Dockerfile.api
+- |----Dockerfile.consumer
+- |----prometheus.yml
