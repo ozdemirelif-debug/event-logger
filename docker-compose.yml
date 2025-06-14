@@ -1,0 +1,81 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  api:
+    build:
+      context: ./api
+      dockerfile: ../Dockerfile.api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: eventuser
+      DB_PASSWORD: eventpass
+      DB_NAME: eventsdb
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASS: guest
+
+  consumer:
+    build:
+      context: ./consumer
+      dockerfile: ../Dockerfile.consumer
+    depends_on:
+      - rabbitmq
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: eventuser
+      DB_PASSWORD: eventpass
+      DB_NAME: eventsdb
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USER: guest
+      RABBITMQ_PASS: guest
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: eventuser
+      POSTGRES_PASSWORD: eventpass
+      POSTGRES_DB: eventsdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - api
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+
+volumes:
+  pgdata:
