@@ -23,15 +23,19 @@ Projeyi çalıştırmak için Docker ve Docker Compose kurulu olmalıdır.
 ### Adımlar:
 
 1. Proje klasörüne gel:
--  cd event-logger
+```bash
+cd event-logger
+```
 2. Docker Compose ile tüm servisleri başlat:
--  docker-compose up --build
-3. API ve Consumer servisleri RabbitMQ ve PostgreSQL'e bağlanarak çalışmaya başlayacaktır.
-4. Projeye event göndermek için send.go dosyası kullanılabilir:
-- go run send.go
+```
+docker-compose up --build
+```
+4. API ve Consumer servisleri RabbitMQ ve PostgreSQL'e bağlanarak çalışmaya başlayacaktır.
+5. Projeye event göndermek için send.go dosyası kullanılabilir:
+```bash
+go run send.go
+```
 5. Manuel olarak API'a event gönderilebilir:
-Manuel olarak API'a event gönderilebilir:
-
 ```bash
 curl -X POST http://localhost:8080/events \
 -H "Content-Type: application/json" \
